@@ -1,0 +1,75 @@
+﻿using Metier;
+using Metier.Carte.Cases;
+using Metier.Unites;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Métier.Unites
+{
+    public class Reserve
+    {
+        //ici tu met ( (  (un/des) int) ou du genre) qui représente le nombre d'unité restantes 
+        int tank; // Exemple 
+        int crabe;
+        int ponton;
+
+        public Reserve()
+        {
+            this.tank = 16;
+            this.crabe = 4;
+            this.ponton = 4;
+        }
+
+        public void Utilise(TypeEntite t)
+        {
+            switch(t)
+            {
+                case TypeEntite.TANK:
+                    this.tank -= 1;
+                    break;
+                case TypeEntite.CRABE:
+                    this.crabe -= 1;
+                    break;
+                case TypeEntite.PONTON:
+                    this.ponton -= 1;
+                    break;
+                default:
+                    throw new Exception("Unité inconnue au battaillon (Réserve)");
+            }
+        } 
+
+        /*
+         * Cette méthode permet de vérifié si il reste des entités 
+         */
+        public bool EstCreable(TypeEntite t)
+        {
+            bool temp = false;
+            switch (t)
+            {
+                case TypeEntite.TANK:
+                    if (this.tank >= 1)
+                    {
+                        temp = true;
+                    }
+                    break;
+                case TypeEntite.CRABE:
+                    if(this.crabe >= 1)
+                    {
+                        temp = true;
+                    }
+                    break;
+                case TypeEntite.PONTON:
+                    if(this.ponton >= 1)
+                    {
+                        temp = true;
+                    }
+                    break;
+                default:
+                    throw new Exception("Unité inconnue au battaillon (Réserve)");
+            }
+            return temp;
+        }
+
+    }
+}

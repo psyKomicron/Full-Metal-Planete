@@ -1,0 +1,26 @@
+﻿using Metier.Carte;
+using Metier.Carte.Cases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Metier.Unites
+{
+    class Barge : Transporteur
+    {
+
+        public Barge(Case position, Joueur joueur) : base(position,joueur)
+        {
+            this.Capacité = 4;
+        }
+
+        
+
+        public override TypeEntité Type()
+        {
+            return TypeEntité.BARGE;
+        }
+    }
+}

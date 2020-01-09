@@ -1,0 +1,8 @@
+Le répertoire est initialisé avec deux dossiers :
+	- branches :
+Répertoires pour le code de chacun des collaborateurs. Cela permet d'éviter les conflits entre fichiers.
+	- trunk
+Répertoire du code "principal". Dans ce répertoire doit être stocké la dernière version stable du projet.
+
+Pour plus d'infos :
+http://svnbook.red-bean.com/en/1.7/svn.branchmerge.using.html

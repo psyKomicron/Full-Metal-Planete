@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Metier.Carte;
+using Metier.Carte.Cases;
+using Metier.Unites;
+
+namespace Metier
+{
+    public class Joueur
+    {
+        // action du joueur
+        private int action;
+        // agréssivité du joueur
+        private float aggresivite;
+        //Carte du joueur
+        private Map carte;
+        //Base(s) posséder par le joueur
+        private List<Astronef> bases;
+
+
+        public Joueur(float aggresivite, Map c)
+        {
+            this.aggresivite = aggresivite;
+            carte = c;
+            bases = new List<Astronef>();
+        }
+        
+        /*
+         * Permet d'update la carte du joueur pour que celui ci est la bonne poisition de tous les unites etc
+         * 
+         * Ne sert normalement a rien vu que la Carte est static (ses cases et ses unité)
+         */
+        public Map updateCarte()
+        {
+            return carte;
+        }
+
+        /*
+         * Renvoie true si je joueur est un joueur Réel 
+         * False si c'est un IA
+         */
+        public virtual bool Player
+        {
+            get => true;
+        }
+
+        
+        public Map Carte
+        {
+            get => carte;
+        }
+
+
+        public int Action
+        {
+            get => action;
+            set => action = value;
+        }
+
+        /*
+         * Permet d'ajouter une base au joueur
+         */
+        public void AjouterBase(Astronef a)
+        {     
+            bases.Add(a); 
+        }
+
+        
+    }
+}

@@ -1,0 +1,93 @@
+﻿using Metier.Carte;
+using Metier.Carte.Cases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Metier.Unites
+{
+    /*
+     * Classe représentant toutes les unités pouvant être présentes dans le jeu
+     */
+    public abstract class Unite : Entite
+    {
+
+        public Unite(Case position, Joueur joueur) : base(position)
+        {
+            this.Joueur = joueur;
+        }
+
+
+        private Joueur joueur;
+
+        public Joueur Joueur
+        {
+            get => joueur;
+            set => joueur = value;
+        }
+
+
+        /*
+         * Cette méthode permet de déplacer une unité
+         */
+        public void DeplacerUnit(Joueur j, Case arrivee)
+        {
+            if (SeDeplacer(j, arrivee))
+            {
+                arrivee.Entity = this;
+                this.Position.Entity = null;
+            }
+        }
+
+        public virtual Boolean SeDeplacer(Joueur j, Case arrivee)
+        {
+            Boolean res = false;
+            if (j.Action >= 1)
+            {
+                foreach (TypeDirection dir in Enum.GetValues(typeof(TypeDirection)))
+                {
+                    if (arrivee == this.Position.Voisin(dir))
+                    {
+                        if(arrivee.Entity == null && !arrivee.Minerai)
+                        {
+                            if (arrivee.Ponton)
+                            {
+                                res = true;
+                            }
+                            else if (j.Carte.Tide == Maree.BASSE)
+                                {
+                                    if (arrivee.Type() != TypeCases.MER && this.Position.Type() != TypeCases.MER)
+                                    {
+                                        res = true;
+                                    }
+                                }
+                                else if (j.Carte.Tide == Maree.MOYENNE)
+                                {
+                                    if (this.Position.Type() != TypeCases.MER | this.Position.Type() != TypeCases.RECIF)
+                                    {
+                                        if (arrivee.Type() != TypeCases.MER | arrivee.Type() != TypeCases.RECIF)
+                                        {
+                                            res = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (this.Position.Type() == TypeCases.MONTAGNE | this.Position.Type() == TypeCases.PLAINE)
+                                    {
+                                        if (arrivee.Type() == TypeCases.MONTAGNE | arrivee.Type() == TypeCases.PLAINE)
+                                        {
+                                            res = true;
+                                        }
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+    }
+}

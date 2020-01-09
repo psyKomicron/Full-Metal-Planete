@@ -1,0 +1,12 @@
+﻿using Metier.Unites;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Métier.Unites
+{
+    public interface IEntité
+    {
+        TypeEntité Type();
+    }
+}

@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Metier;
+using Metier.Carte.Cases;
+using Metier.Unites;
+
+namespace Métier.Unites
+{
+    class Ponton : Entité   
+    {
+        public Ponton(Case position) : base(position)
+        {
+        }
+
+        public override TypeEntité Type()
+        {
+            return TypeEntité.PONTON;
+        }
+    }
+}

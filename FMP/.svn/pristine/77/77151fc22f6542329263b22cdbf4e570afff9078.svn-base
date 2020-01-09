@@ -1,0 +1,60 @@
+﻿using Metier.Unites;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+namespace Full_Metal_Planete.src.decorators
+{
+    public class UnitIHM : IUnite
+    {
+        private IEntite unite;
+
+        public IEntite Entite => unite;
+
+        public ImageSource Sprite { get => Image.Source; set => Image.Source = value; }
+
+        public Image Image { get; set; }
+
+        public Point Position { get; set; }
+
+        public TypeEntite Type => unite.Type;
+
+        public int Width 
+        { 
+            get
+            {
+                switch (Type)
+                {
+                    case TypeEntite.ASTRONEF:
+                        return 150;
+                    default:
+                        return 200;
+                }
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case TypeEntite.ASTRONEF:
+                        return 150;
+                    default:
+                        return 200;
+                }
+            }
+        }
+
+        public UnitIHM(IEntite unite)
+        {
+            this.unite = unite;
+        }
+
+        public Point GetImageCenter()
+        {
+            return new Point(Image.Width / 2, Image.Height / 2);
+        }
+    }
+}

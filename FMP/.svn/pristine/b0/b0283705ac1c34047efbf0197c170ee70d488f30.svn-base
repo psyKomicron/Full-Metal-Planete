@@ -1,0 +1,74 @@
+﻿using Metier.Unites;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace Full_Metal_Planete.src.decorators
+{
+    public class UnitHMI : IUnite
+    {
+        private IEntite unite;
+
+        public IEntite Entite => unite;
+
+        public ImageSource Sprite { get => Image.Source; set => Image.Source = value; }
+
+        public Image Image { get; set; }
+
+        public Image GhostImage => GetGhostImage();
+
+        public Point Position { get; set; }
+
+        public TypeEntite Type => unite.Type;
+
+        public int Width 
+        { 
+            get
+            {
+                switch (Type)
+                {
+                    case TypeEntite.ASTRONEF:
+                        return 150;
+                    default:
+                        return 200;
+                }
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case TypeEntite.ASTRONEF:
+                        return 150;
+                    default:
+                        return 200;
+                }
+            }
+        }
+
+        public UnitHMI(IEntite unite)
+        {
+            this.unite = unite;
+        }
+
+        public Point GetCenter()
+        {
+            return new Point(Image.Width / 2, Position.Y + Image.Height / 2);
+        }
+
+        private Image GetGhostImage()
+        {
+            return new Image()
+            {
+                Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\src\\files\\images\\question_mark.png")),
+                Height = 20,
+                Width = 20,
+            };
+        }
+    }
+}

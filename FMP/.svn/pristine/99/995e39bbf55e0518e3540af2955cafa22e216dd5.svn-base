@@ -1,0 +1,87 @@
+﻿using Full_Metal_Planete.src.game.game_window;
+using Full_Metal_Planete.src.user_controls;
+using Full_Metal_Planete.src.user_controls.unit_overlay;
+using Metier;
+using Metier.Unites;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+
+namespace Full_Metal_Planete.src.decorators.units_decorators
+{
+    public class SpaceshipHMI : UnitHMI
+    {
+        private ReserveAstronefHMI _reserve;
+
+        public SpaceshipHMI(Unite unite, MapHMI map) : base(unite)
+        {
+            MapHMI = map;
+            _reserve = new ReserveAstronefHMI(new ReserveAstronef(), this);
+            ReserveHMI = new UnitListView();
+            GhostImage = new Image()
+            {
+                Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\src\\files\\images\\sprites\\astronef.png")),
+                Height = Height,
+                Width = Width,
+            };
+        }
+
+        public UnitListView ReserveHMI { get; private set; }
+
+        public override double Width => 170;
+
+        public override double Height => 170;
+
+        public override Image GhostImage { get; protected set; }
+
+        public MapHMI MapHMI { get; set; }
+
+        public ReserveAstronefHMI Reserve => _reserve;
+
+        protected override void Unit_OnClick(object sender, MouseButtonEventArgs e)
+        {
+            var w = Image.Parent;
+            if (w is Canvas canvas)
+            {
+                MapHMI.Astronef_OnClick();
+            }
+        }
+
+        public override Point GetCenter()
+        {
+            return new Point((Image.Width / 2), (Image.Height / 2) + 13);
+        }
+
+        public override void Land(Canvas canvas, BoxHMI boxIHM)
+        {
+            base.Land(canvas, boxIHM);
+            Image image = Image;
+            #region canvas
+            Canvas.SetLeft(image, (boxIHM.GetCenter().X - GetCenter().X));
+            Canvas.SetTop(image, (boxIHM.GetCenter().Y - GetCenter().Y));
+            Canvas.SetZIndex(image, FullscreenWindow.MAXZINDEX);
+            #endregion
+            canvas.Children.Add(image);
+            Position = new Point(Canvas.GetLeft(Image), Canvas.GetTop(Image));
+            BoxHMI = boxIHM;
+        }
+
+        protected override void Unit_OnMouseMove(object sender, MouseEventArgs e)
+        {
+        }
+
+        public override void Move(Canvas canvas, BoxHMI box)
+        {
+        }
+    }
+}
+
+/*
+var overlay = new SpaceshipOverlay(this);
+Canvas.SetLeft(overlay, Position.X - 10);
+Canvas.SetTop(overlay, Position.Y);
+Canvas.SetZIndex(overlay, FullscreenWindow.MAXZINDEX + 1);
+canvas.Children.Add(overlay);
+*/

@@ -1,0 +1,64 @@
+﻿using Metier.Unites;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+namespace Full_Metal_Planete.src.decorators
+{
+    public abstract class UnitHMI : IUnite
+    {
+        private IEntite unite;
+
+        public virtual Image GhostImage
+        {
+            get
+            {
+                return new Image()
+                {
+                    Source = new BitmapImage(new Uri(Environment.CurrentDirectory + "\\src\\files\\images\\question_mark.png")),
+                    Height = 50,
+                    Width = 50,
+                };
+            }
+            protected set => throw new NotImplementedException();
+        }
+
+        public abstract double Width { get; }
+
+        public abstract double Height { get; }
+
+        public ImageSource Sprite { get => Image.Source; set => Image.Source = value; }
+
+        public Image Image { get; set; }
+
+        public Point Position { get; set; }
+
+        #region inherited properties
+        public TypeEntite Type => unite.Type;
+
+        public IEntite Entite => unite;
+        #endregion
+
+        public UnitHMI(IEntite unite)
+        {
+            this.unite = unite;
+        }
+
+        public abstract Point GetCenter();
+
+        protected abstract void Unit_OnClick(object sender, MouseButtonEventArgs e);
+
+        public abstract void PlaceUnit();
+
+        public void AddHandler()
+        {
+            if (Image is Image image)
+            {
+                image.MouseLeftButtonDown += Unit_OnClick;
+            }
+        }
+    }
+}

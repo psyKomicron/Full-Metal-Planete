@@ -1,0 +1,52 @@
+﻿using Full_Metal_Planete.src.decorators.units_decorators;
+using Metier;
+using Metier.Carte;
+using Metier.Unites;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Full_Metal_Planete.src.decorators
+{
+    public class PlayerHMI : IJoueur
+    {
+        private Joueur _player;
+
+        private List<SpaceshipHMI> _spaceships = new List<SpaceshipHMI>();
+
+        public PlayerHMI(Joueur joueur)
+        {
+            _player = joueur;
+        }
+
+        public List<SpaceshipHMI> Spaceships => _spaceships;
+
+        public int Action { get => _player.Action; set => _player.Action = value; }
+
+        public List<Astronef> Bases { get => _player.Bases; set => _player.Bases = value; }
+
+        public Map Carte => _player.Carte;
+
+        public bool Player => _player.Player;
+
+        public Joueur Joueur => _player;
+
+        public void AddSpaceship(SpaceshipHMI spaceship)
+        {
+            _spaceships.Add(spaceship);
+            AjouterBase(spaceship.Unite as Astronef);
+        }
+
+        public void AjouterBase(Astronef a)
+        {
+            _player.AjouterBase(a);
+        }
+
+        public void FinTour()
+        {
+            _player.FinTour();
+        }
+    }
+}
